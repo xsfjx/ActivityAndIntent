@@ -9,11 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private View view;
+    private EditText etName;
+    private EditText etAge;
+    private NextDto dto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         view = findViewById(R.id.cdLayout);
+        Button bnt = findViewById(R.id.btn_main);
+        etName = findViewById(R.id.etName);
+        etAge = findViewById(R.id.etAge);
+
+
+        bnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , Main2Activity.class));
+            }
+        });
 
         Toast.makeText(this, "onCreate: ", Toast.LENGTH_SHORT).show();
 
@@ -35,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void btnIntentOnClick (View view){
+        int age = Integer.parseInt(etAge.getText().toString());
+        dto = new NextDto(etName.getText().toString() , age );
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Tags.DTO_KEY , dto);
+
+        Intent intent = new Intent(MainActivity.this , Main2Activity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
